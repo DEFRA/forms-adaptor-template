@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import convict from 'convict'
 import convictFormatWithValidator from 'convict-format-with-validator'
 
@@ -112,6 +114,26 @@ const config = convict({
       env: 'TRACING_HEADER'
     }
   },
+
+  /**
+   * API integrations
+   */
+  designerUrl: {
+    doc: 'URL to call Forms Designer',
+    format: String,
+    default: null,
+    env: 'DESIGNER_URL'
+  },
+  managerUrl: {
+    doc: 'URL to call Forms Manager API',
+    format: String,
+    default: null,
+    env: 'MANAGER_URL'
+  },
+
+  /**
+   * SQS Messaging
+   */
   awsRegion: {
     doc: 'AWS region',
     format: String,
