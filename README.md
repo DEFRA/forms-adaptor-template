@@ -148,7 +148,7 @@ docker build --target development --no-cache --tag forms-adaptor-template:develo
 Run:
 
 ```bash
-docker run -e PORT=3001 -p 3001:3001 forms-adaptor-template:development
+docker run -e PORT=3007 -p 3007:3007 forms-adaptor-template:development
 ```
 
 ### Production image
@@ -162,7 +162,7 @@ docker build --no-cache --tag forms-adaptor-template .
 Run:
 
 ```bash
-docker run -e PORT=3001 -p 3001:3001 forms-adaptor-template
+docker run -e PORT=3007 -p 3007:3007 forms-adaptor-template
 ```
 
 ### Docker Compose
