@@ -43,6 +43,20 @@ nvm use
 
 ### Setup
 
+Create a `.env` file (this will be ignored in `.gitignore`) and put the following variables inside:
+
+```
+LOG_LEVEL=debug
+SQS_ENDPOINT=http://localhost:4566
+AWS_REGION=eu-west-2
+AWS_ACCESS_KEY_ID=dummy
+EVENTS_SQS_QUEUE_URL=http://sqs.eu-west-2.127.0.0.1:4566/000000000000/forms_notify_listener_events
+AWS_SECRET_ACCESS_KEY=dummy
+RECEIVE_MESSAGE_TIMEOUT_MS=5000
+MANAGER_URL=http://localhost:3001
+DESIGNER_URL=http://localhost:3000
+```
+
 Install application dependencies:
 
 ```bash
