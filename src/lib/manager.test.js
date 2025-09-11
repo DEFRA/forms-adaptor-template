@@ -18,7 +18,7 @@ describe('getDefinition', () => {
       response: {},
       body: expectedDefinition
     })
-    
+
     const definition = await getFormDefinition(
       formId,
       FormStatus.Draft,
