@@ -49,7 +49,7 @@ export function mapFormAdapterSubmissionEvent(message) {
 }
 
 /**
- * Create form submission event
+ * Handle the form submission event and delete it once it's successfully handled
  * @template T
  * @param {Message[]} messages
  * @param {T & FormAdapterSubmissionService} formSubmissionService

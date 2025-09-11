@@ -1,3 +1,6 @@
+/**
+ * Health endpoint for CDP container
+ */
 const health = {
   method: 'GET',
   path: '/health',

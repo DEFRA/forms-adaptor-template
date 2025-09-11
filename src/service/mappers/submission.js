@@ -7,6 +7,7 @@ import Joi from 'joi'
  */
 
 /**
+ * This method maps, validates and de-serialises the SQS message for handling
  * @param {Message} message
  * @returns {FormAdapterSubmissionMessagePayload}
  */

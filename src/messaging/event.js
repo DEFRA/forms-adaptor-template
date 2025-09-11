@@ -6,6 +6,10 @@ import {
 import { config } from '../config.js'
 import { sqsClient } from './sqs.js'
 
+/**
+ * SQS methods for fetching and deleting messages
+ */
+
 export const receiveMessageTimeout = config.get('receiveMessageTimeout')
 const queueUrl = config.get('sqsEventsQueueUrl')
 const maxNumberOfMessages = config.get('maxNumberOfMessages')

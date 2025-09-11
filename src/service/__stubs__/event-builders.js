@@ -1,5 +1,10 @@
 import { FormAdapterSubmissionSchemaVersion } from '@defra/forms-engine-plugin/engine/types/enums.js'
 import { FormStatus } from '@defra/forms-model'
+
+/**
+ * A collection of stub builders and types for testing
+ */
+
 /**
  * @typedef {Omit<
  *   FormAdapterSubmissionMessageMeta,
