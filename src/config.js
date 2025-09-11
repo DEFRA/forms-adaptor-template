@@ -176,6 +176,12 @@ const config = convict({
     default: 1,
     env: 'CONCURRENT_COROUTINES'
   }
+  // notifyAPIKey: {
+  //   doc: 'API key to Gov uk Notify',
+  //   format: String,
+  //   default: null,
+  //   env: 'NOTIFY_API_KEY'
+  // }
 })
 
 config.validate({ allowed: 'strict' })
