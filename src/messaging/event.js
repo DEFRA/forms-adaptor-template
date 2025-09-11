@@ -6,9 +6,17 @@ import {
 import { config } from '../config.js'
 import { sqsClient } from './sqs.js'
 
+export const receiveMessageTimeout = config.get('receiveMessageTimeout')
 const queueUrl = config.get('sqsEventsQueueUrl')
 const maxNumberOfMessages = config.get('maxNumberOfMessages')
 const visibilityTimeout = config.get('visibilityTimeout')
+
+/**
+ * @typedef {import('@aws-sdk/client-sqs').ReceiveMessageCommandInput} ReceiveMessageCommandInput
+ * @typedef {import('@aws-sdk/client-sqs').ReceiveMessageResult} ReceiveMessageResult
+ * @typedef {import('@aws-sdk/client-sqs').DeleteMessageCommandOutput} DeleteMessageCommandOutput
+ * @typedef {import('@aws-sdk/client-sqs').Message} Message
+ */
 
 /**
  * @type {ReceiveMessageCommandInput}
@@ -41,7 +49,3 @@ export function deleteEventMessage(message) {
 
   return sqsClient.send(command)
 }
-
-/**
- * @import { ReceiveMessageCommandInput, ReceiveMessageResult, DeleteMessageCommandOutput, Message } from '@aws-sdk/client-sqs'
- */
