@@ -18,6 +18,7 @@ describe('getDefinition', () => {
       response: {},
       body: expectedDefinition
     })
+    
     const definition = await getFormDefinition(
       formId,
       FormStatus.Draft,
@@ -43,6 +44,7 @@ describe('getDefinition', () => {
       FormStatus.Live,
       undefined
     )
+
     expect(getJson).toHaveBeenCalledWith(
       expect.objectContaining({
         href: 'http://forms-manager/forms/68a890909ab460290c289409/definition/'
