@@ -169,7 +169,19 @@ const config = convict({
     format: Number,
     default: 30,
     env: 'SQS_VISIBILITY_TIMEOUT'
+  },
+  numberOfConcurrentPollingCoroutines: {
+    doc: 'The number of concurrent polling coroutines - to enable higher throughput',
+    format: Number,
+    default: 1,
+    env: 'CONCURRENT_COROUTINES'
   }
+  // notifyAPIKey: {
+  //   doc: 'API key to Gov uk Notify',
+  //   format: String,
+  //   default: null,
+  //   env: 'NOTIFY_API_KEY'
+  // }
 })
 
 config.validate({ allowed: 'strict' })

@@ -10,6 +10,8 @@ import { requestTracing } from './common/helpers/request-tracing.js'
 import { setupProxy } from './common/helpers/proxy/setup-proxy.js'
 import { runTask } from './tasks/receive-messages.js'
 
+const numberOfCoroutines = config.get('numberOfConcurrentPollingCoroutines')
+
 async function createServer() {
   setupProxy()
   const server = Hapi.server({
@@ -52,7 +54,9 @@ async function createServer() {
     router
   ])
 
-  await runTask()
+  for (let i = 0; i < numberOfCoroutines; i++) {
+    await runTask()
+  }
 
   return server
 }

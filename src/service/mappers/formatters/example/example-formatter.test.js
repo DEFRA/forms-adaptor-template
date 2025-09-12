@@ -16,10 +16,10 @@ import {
   buildUkAddressFieldComponent
 } from '@defra/forms-model/stubs'
 
-import { buildFormAdapterSubmissionMessage } from '../../__stubs__/event-builders.js'
-import { formatter } from './index.js'
+import { buildFormAdapterSubmissionMessage } from '../../../__stubs__/event-builders.js'
+import { formatter } from './example-formatter.js'
 
-vi.mock('../../../config.js', () => ({
+vi.mock('../../../../config.js', () => ({
   config: {
     get: vi.fn(() => {
       return 'http://designer'
@@ -27,7 +27,7 @@ vi.mock('../../../config.js', () => ({
   }
 }))
 
-describe('Page controller helpers', () => {
+describe('Example formatter tests', () => {
   const definitionBase = buildDefinition({
     name: 'Example notify form',
     engine: Engine.V2,
@@ -287,13 +287,6 @@ describe('Page controller helpers', () => {
     }
   })
 
-  beforeAll(() => {
-    vi.useFakeTimers().setSystemTime(new Date('2025-09-01T00:00:00Z'))
-  })
-  afterAll(() => {
-    vi.useRealTimers()
-  })
-
   it('should return a valid machine v1 response', () => {
     const definition = buildDefinition({
       ...definitionBase,
@@ -302,46 +295,71 @@ describe('Page controller helpers', () => {
         version: '1'
       }
     })
-    const formatted = JSON.parse(formatter(message, definition, '1'))
-    expect(formatted).toEqual({
-      meta: {
-        schemaVersion: '1',
-        timestamp: expect.any(String),
-        referenceNumber: '874-C7C-D60',
-        definition: {
-          ...definitionBase,
-          output: { audience: 'machine', version: '1' }
+    const formatted = JSON.parse(formatter(message, definition))
+    expect(formatted).toEqual([
+      {
+        title: 'What is your name?',
+        shortDescription: 'Your name',
+        text: 'Someone',
+        data: 'Someone'
+      },
+      {
+        title: 'What is your address?',
+        shortDescription: 'Your address',
+        text: '1 Anywhere Street, Anywhereville, Anywhereshire, AN1 2WH',
+        data: {
+          addressLine1: '1 Anywhere Street',
+          town: 'Anywhereville',
+          county: 'Anywhereshire',
+          postcode: 'AN1 2WH'
         }
       },
-      data: {
-        main: {
-          JHCHVE: 'Someone',
-          hTFiWF: '1 Anywhere Street,Anywhereville,Anywhereshire,AN1 2WH',
-          zznFWF: '2000-01-01',
-          KGSRJU: '2025-08',
-          hVcHQv: 'Gandalf,Frodo'
-        },
-        repeaters: {
-          biMrWQ: [
-            {
-              FqQrLz: 'Frodo'
-            },
-            {
-              FqQrLz: 'Gandalf'
-            }
-          ]
-        },
-        files: {
-          IWEgMu: [
-            {
-              fileName: 'supporting_evidence.pdf',
-              fileId: 'ef4863e9-7e9e-40d0-8fea-cf34faf098cd',
-              userDownloadLink:
-                'http://localhost:3005/file-download/ef4863e9-7e9e-40d0-8fea-cf34faf098cd'
-            }
-          ]
-        }
+      {
+        title: 'What is your date of birth?',
+        shortDescription: 'Your date of birth',
+        text: '1 January 2000',
+        data: { day: 1, month: 1, year: 2000 }
+      },
+      {
+        title: 'What month is it?',
+        shortDescription: 'This month',
+        text: 'August 2025',
+        data: { month: 8, year: 2025 }
+      },
+      {
+        title: 'Team Member',
+        shortDescription: 'Team Member',
+        text: '',
+        data: [
+          {
+            title: "What is the team member's name?",
+            shortDescription: "Team member's name",
+            text: ['Frodo', 'Gandalf'],
+            data: ['Frodo', 'Gandalf']
+          }
+        ]
+      },
+      {
+        title: 'Who are your favourite LotR characters?',
+        shortDescription: 'Your favourite LotR characters',
+        text: 'Gandalf, Frodo',
+        data: ['Gandalf', 'Frodo']
+      },
+      {
+        title: 'Please add supporting evidence',
+        shortDescription: 'Supporting evidence',
+        text: [
+          'http://localhost:3005/file-download/ef4863e9-7e9e-40d0-8fea-cf34faf098cd'
+        ],
+        data: [
+          {
+            fileName: 'supporting_evidence.pdf',
+            fileId: 'ef4863e9-7e9e-40d0-8fea-cf34faf098cd',
+            userDownloadLink:
+              'http://localhost:3005/file-download/ef4863e9-7e9e-40d0-8fea-cf34faf098cd'
+          }
+        ]
       }
-    })
+    ])
   })
 })

@@ -9,9 +9,9 @@ const logger = createLogger()
 
 /**
  * @typedef {import('@aws-sdk/client-sqs').Message} Message
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessagePayload} FormAdapterSubmissionMessagePayload
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionService} FormAdapterSubmissionService
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessagePayload} FormAdapterSubmissionMessagePayload
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionService} FormAdapterSubmissionService
  */
 
 /**
@@ -49,7 +49,7 @@ export function mapFormAdapterSubmissionEvent(message) {
 }
 
 /**
- * Create form submission event
+ * Handle the form submission event and delete it once it's successfully handled
  * @template T
  * @param {Message[]} messages
  * @param {T & FormAdapterSubmissionService} formSubmissionService

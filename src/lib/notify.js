@@ -52,6 +52,7 @@ const NOTIFICATIONS_URL = new URL(
 )
 
 /**
+ * Helper method to call Gov uk Notify should it be needed
  * @param {SendNotificationArgs} args
  * @returns {Promise<{response: object, body: unknown}>}
  */

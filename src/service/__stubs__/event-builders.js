@@ -1,5 +1,10 @@
 import { FormAdapterSubmissionSchemaVersion } from '@defra/forms-engine-plugin/engine/types/enums.js'
 import { FormStatus } from '@defra/forms-model'
+
+/**
+ * A collection of stub builders and types for testing
+ */
+
 /**
  * @typedef {Omit<
  *   FormAdapterSubmissionMessageMeta,
@@ -21,11 +26,11 @@ import { FormStatus } from '@defra/forms-model'
 
 /**
  * @typedef {import('@aws-sdk/client-sqs').Message} Message
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessageResult} FormAdapterSubmissionMessageResult
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessagePayload} FormAdapterSubmissionMessagePayload
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessageMeta} FormAdapterSubmissionMessageMeta
- * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessageData} FormAdapterSubmissionMessageData
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessageResult} FormAdapterSubmissionMessageResult
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessagePayload} FormAdapterSubmissionMessagePayload
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessageMeta} FormAdapterSubmissionMessageMeta
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessageData} FormAdapterSubmissionMessageData
  */
 
 /**
