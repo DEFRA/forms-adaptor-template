@@ -10,7 +10,7 @@ import { requestTracing } from './common/helpers/request-tracing.js'
 import { setupProxy } from './common/helpers/proxy/setup-proxy.js'
 import { runTask } from './tasks/receive-messages.js'
 
-const numberOfCoRoutines = config.get('numberOfConcurrentPollingCoroutines')
+const numberOfCoroutines = config.get('numberOfConcurrentPollingCoroutines')
 
 async function createServer() {
   setupProxy()
@@ -54,7 +54,7 @@ async function createServer() {
     router
   ])
 
-  for (let i = 0; i < numberOfCoRoutines; i++) {
+  for (let i = 0; i < numberOfCoroutines; i++) {
     await runTask()
   }
 

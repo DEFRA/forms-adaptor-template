@@ -140,7 +140,7 @@ from which this template has been forked. Routing already exists should it need 
 
 A number of different optimisation parameters exist, see [Notes on SQS queue configuration](#notes-on-sqs-queue-configuration)
 for SQS configuration options.
-Additionally `CONCURRENT_COROUTINES` allows you to increase the number of concurrent polling asynchronous co-routines.
+Additionally `CONCURRENT_COROUTINES` allows you to increase the number of concurrent polling asynchronous coroutines.
 This is especially helpful if you have a busy queue, as SQS allows for a maximum of 10 messages to be handled at a time.
 Should you be performing heavily CPU intensive blocking operations then it would be advisable to make sure of node.js worker threads.
 More information is available on [CDP Documentation](https://portal.cdp-int.defra.cloud/documentation/how-to/long-process.md#node-js-worker-thread)

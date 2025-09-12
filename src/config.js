@@ -171,7 +171,7 @@ const config = convict({
     env: 'SQS_VISIBILITY_TIMEOUT'
   },
   numberOfConcurrentPollingCoroutines: {
-    doc: 'The number of concurrent polling co-routines - to enable higher throughput',
+    doc: 'The number of concurrent polling coroutines - to enable higher throughput',
     format: Number,
     default: 1,
     env: 'CONCURRENT_COROUTINES'
