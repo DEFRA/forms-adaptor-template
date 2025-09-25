@@ -35,6 +35,7 @@ export async function runTaskOnce() {
     }
   } catch (err) {
     logger.error(
+      err,
       `[runTaskOnce] Receive messages task failed - ${getErrorMessage(err)}`
     )
   }
