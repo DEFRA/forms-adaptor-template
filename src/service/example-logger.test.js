@@ -4,7 +4,12 @@ import {
   buildSummaryPage,
   buildTextFieldComponent
 } from '@defra/forms-model/stubs'
-import { Engine, FormStatus, SchemaVersion } from '@defra/forms-model'
+import {
+  ControllerType,
+  Engine,
+  FormStatus,
+  SchemaVersion
+} from '@defra/forms-model'
 import { buildFormAdapterSubmissionMessage } from './__stubs__/event-builders.js'
 import { FormAdapterSubmissionSchemaVersion } from '@defra/forms-engine-plugin/engine/types/enums.js'
 import { handleFormSubmission } from './example-logger.js'
@@ -93,7 +98,8 @@ describe('example-logger', () => {
         title: 'What is your name?',
         shortDescription: 'Your name',
         text: 'Someone',
-        data: 'Someone'
+        data: 'Someone',
+        type: ControllerType.Page
       }
     ]
 

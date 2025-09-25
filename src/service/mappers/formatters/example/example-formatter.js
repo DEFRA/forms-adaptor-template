@@ -1,24 +1,25 @@
+import { FormModel } from '@defra/forms-engine-plugin/engine/models/FormModel.js'
+import {
+  hasFormComponents,
+  hasRepeater,
+  ControllerType
+} from '@defra/forms-model'
+import { createComponent } from '@defra/forms-engine-plugin/engine/components/helpers/components.js'
+import { FileUploadField } from '@defra/forms-engine-plugin/engine/components/FileUploadField.js'
+
 /**
  * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
  * @typedef {import('@defra/forms-model').FormDefinition} FormDefinition
+ * @typedef {import('@defra/forms-model').Page} Page
  */
-
-import { FormModel } from '@defra/forms-engine-plugin/engine/models/FormModel.js'
-import { hasFormComponents, hasRepeater } from '@defra/forms-model'
-import { createComponent } from '@defra/forms-engine-plugin/engine/components/helpers/components.js'
-import { FileUploadField } from '@defra/forms-engine-plugin/engine/components/FileUploadField.js'
 
 /**
  * This is a higher order function that creates a mapper from the FormModel, FormAdapterSubmissionMessage and repeaterName
  * @param {FormModel} model
  * @param {FormAdapterSubmissionMessage} formSubmissionMessage
- * @param {string} repeaterName
+ * @param {Page} [page]
  */
-function handleComponent(
-  model,
-  formSubmissionMessage,
-  repeaterName = undefined
-) {
+function handleComponent(model, formSubmissionMessage, page = undefined) {
   return function (component) {
     /**
      * Here we're instantiating a component to get access to the Question title, label and text representation
@@ -29,6 +30,7 @@ function handleComponent(
     const title = field.title
     const shortDescription = field.label
     const fieldName = field.name
+    let type = ControllerType.Page
 
     let data
     let text
@@ -40,16 +42,19 @@ function handleComponent(
     if (field instanceof FileUploadField) {
       data = formSubmissionMessage.data.files[fieldName]
       text = data.map((file) => file.userDownloadLink)
-    } else if (repeaterName !== undefined) {
+      type = ControllerType.FileUpload
+    } else if (page !== undefined && hasRepeater(page)) {
       /**
        * Making use of the repeaters section of the FormSubmissionMessage we're going to map
        * the raw values and get text representation of those values
        */
-      const repeaters = formSubmissionMessage.data.repeaters[fieldName]
-      data = repeaters.map((repeaterField) => repeaterField[repeaterName])
+      const repeaterName = page.repeat.options.name
+      const repeaters = formSubmissionMessage.data.repeaters[repeaterName]
+      data = repeaters.map((repeaterField) => repeaterField[fieldName])
       text = repeaters.map((repeaterField) =>
-        field.getDisplayStringFromFormValue(repeaterField[repeaterName])
+        field.getDisplayStringFromFormValue(repeaterField[fieldName])
       )
+      type = ControllerType.Repeat
     } else {
       const formValue = formSubmissionMessage.data.main[fieldName]
       text = field.getDisplayStringFromFormValue(formValue)
@@ -60,7 +65,8 @@ function handleComponent(
       title,
       shortDescription,
       text,
-      data
+      data,
+      type
     }
   }
 }
@@ -94,10 +100,10 @@ export function formatter(formSubmissionMessage, formDefinition) {
      * The repeater entry will be nested repeater page -> components
      */
     if (hasRepeater(page)) {
-      const { name, title } = page.repeat.options
+      const { title } = page.repeat.options
 
       const data = components.map(
-        handleComponent(model, formSubmissionMessage, name)
+        handleComponent(model, formSubmissionMessage, page)
       )
 
       return [
@@ -105,7 +111,8 @@ export function formatter(formSubmissionMessage, formDefinition) {
           title, // repeater page title
           shortDescription: title,
           text: '', // text is not needed due to this being nested
-          data // an array of the components in the repeater, each with `title`, `shortDescription`, `text` and `data`
+          data, // an array of the components in the repeater, each with `title`, `shortDescription`, `text` and `data`
+          type: ControllerType.Repeat
         }
       ]
     }
