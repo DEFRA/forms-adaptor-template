@@ -1,5 +1,10 @@
 import { FormAdapterSubmissionSchemaVersion } from '@defra/forms-engine-plugin/engine/types/enums.js'
-import { Engine, FormStatus, SchemaVersion } from '@defra/forms-model'
+import {
+  ControllerType,
+  Engine,
+  FormStatus,
+  SchemaVersion
+} from '@defra/forms-model'
 import {
   buildCheckboxComponent,
   buildDateComponent,
@@ -103,12 +108,12 @@ describe('Example formatter tests', () => {
         id: '111680c2-0137-483f-81bb-6d475274acd7'
       }),
       buildRepeaterPage({
-        title: '',
+        title: 'Team member information',
         path: '/what-is-the-team-members-name',
         components: [
           buildTextFieldComponent({
             title: "What is the team member's name?",
-            name: 'biMrWQ',
+            name: 'repeaterComponentName',
             shortDescription: "Team member's name",
             hint: '',
             options: {
@@ -120,7 +125,7 @@ describe('Example formatter tests', () => {
         id: 'f227fb10-dcc8-4d49-9340-2fb138c642d9',
         repeat: {
           options: {
-            name: 'FqQrLz',
+            name: 'repeaterOptionName',
             title: 'Team Member'
           },
           schema: {
@@ -257,12 +262,12 @@ describe('Example formatter tests', () => {
         JHCHVE: 'Someone' // moved from first position to test ordering
       },
       repeaters: {
-        biMrWQ: [
+        repeaterOptionName: [
           {
-            FqQrLz: 'Frodo'
+            repeaterComponentName: 'Frodo'
           },
           {
-            FqQrLz: 'Gandalf'
+            repeaterComponentName: 'Gandalf'
           }
         ]
       },
@@ -301,7 +306,8 @@ describe('Example formatter tests', () => {
         title: 'What is your name?',
         shortDescription: 'Your name',
         text: 'Someone',
-        data: 'Someone'
+        data: 'Someone',
+        type: ControllerType.Page
       },
       {
         title: 'What is your address?',
@@ -312,30 +318,35 @@ describe('Example formatter tests', () => {
           town: 'Anywhereville',
           county: 'Anywhereshire',
           postcode: 'AN1 2WH'
-        }
+        },
+        type: ControllerType.Page
       },
       {
         title: 'What is your date of birth?',
         shortDescription: 'Your date of birth',
         text: '1 January 2000',
-        data: { day: 1, month: 1, year: 2000 }
+        data: { day: 1, month: 1, year: 2000 },
+        type: ControllerType.Page
       },
       {
         title: 'What month is it?',
         shortDescription: 'This month',
         text: 'August 2025',
-        data: { month: 8, year: 2025 }
+        data: { month: 8, year: 2025 },
+        type: ControllerType.Page
       },
       {
         title: 'Team Member',
         shortDescription: 'Team Member',
         text: '',
+        type: ControllerType.Repeat,
         data: [
           {
             title: "What is the team member's name?",
             shortDescription: "Team member's name",
             text: ['Frodo', 'Gandalf'],
-            data: ['Frodo', 'Gandalf']
+            data: ['Frodo', 'Gandalf'],
+            type: ControllerType.Repeat
           }
         ]
       },
@@ -343,7 +354,8 @@ describe('Example formatter tests', () => {
         title: 'Who are your favourite LotR characters?',
         shortDescription: 'Your favourite LotR characters',
         text: 'Gandalf, Frodo',
-        data: ['Gandalf', 'Frodo']
+        data: ['Gandalf', 'Frodo'],
+        type: ControllerType.Page
       },
       {
         title: 'Please add supporting evidence',
@@ -358,7 +370,8 @@ describe('Example formatter tests', () => {
             userDownloadLink:
               'http://localhost:3005/file-download/ef4863e9-7e9e-40d0-8fea-cf34faf098cd'
           }
-        ]
+        ],
+        type: ControllerType.FileUpload
       }
     ])
   })
