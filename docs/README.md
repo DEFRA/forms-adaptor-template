@@ -2,6 +2,8 @@
 
 Build adaptors to process form submissions from AWS SQS queues.
 
+If you wish to take advantage of this, please raise a request in our `#defra-forms-support` slack channel.
+
 ## Quick links
 
 1. [**Overview**](01-overview.md) - How the system works
