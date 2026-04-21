@@ -3,13 +3,14 @@ import Joi from 'joi'
 
 /**
  * @typedef {import('@aws-sdk/client-sqs').Message} Message
+ * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
  * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormAdapterSubmissionMessagePayload} FormAdapterSubmissionMessagePayload
  */
 
 /**
  * This method maps, validates and de-serialises the SQS message for handling
  * @param {Message} message
- * @returns {FormAdapterSubmissionMessagePayload}
+ * @returns {FormAdapterSubmissionMessage}
  */
 export function mapSubmissionEvent(message) {
   if (!message.MessageId) {

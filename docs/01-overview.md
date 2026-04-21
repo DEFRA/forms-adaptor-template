@@ -9,6 +9,7 @@ When a user submits a form through the Defra Forms platform, the submission is p
 ## Use cases
 
 Build adaptors to:
+
 - Upload submissions to SharePoint
 - Capture payments
 - Send notifications
@@ -36,11 +37,13 @@ Build adaptors to:
 ## Getting started
 
 1. Clone the template:
+
    ```bash
    git clone https://github.com/DEFRA/forms-adaptor-template.git
    ```
 
 2. Replace the example service handler in [src/service/index.js](../src/service/index.js):
+
    ```javascript
    import { handleFormSubmissionEvents } from './events.js'
    import * as yourService from './your-service.js'

@@ -5,7 +5,8 @@
 Your handler receives a message of type `FormAdapterSubmissionMessage`:
 
 ```typescript
-import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage
+import('@defra/forms-engine-plugin/engine/types.d.ts')
+  .FormAdapterSubmissionMessage
 ```
 
 ## Structure overview
@@ -143,7 +144,7 @@ const userName = formSubmissionMessage.data.main.fFzkDs
 
 ```javascript
 const people = formSubmissionMessage.data.repeaters.peopleLivingAtHome
-people.forEach(person => {
+people.forEach((person) => {
   console.log(person.name)
 })
 ```
@@ -152,7 +153,7 @@ people.forEach(person => {
 
 ```javascript
 const documents = formSubmissionMessage.data.files.uploadDocument
-documents.forEach(file => {
+documents.forEach((file) => {
   console.log(file.userDownloadLink)
 })
 ```

@@ -11,7 +11,7 @@ const logger = createLogger()
 export async function handleFormSubmission(formSubmissionMessage) {
   /**
    * We need to get the form definition from the FormsManager in order to build the Form model
-   * @type {FormDefinition}
+   * @type {import('@defra/forms-model').FormDefinition} FormDefinition
    */
   const formDefinition = await getFormDefinition(
     formSubmissionMessage.meta.formId,

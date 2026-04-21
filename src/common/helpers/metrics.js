@@ -21,7 +21,8 @@ const metricsCounter = async (metricName, value = 1) => {
     )
     await metricsLogger.flush()
   } catch (error) {
-    createLogger().error(error, error.message)
+    const message = error instanceof Error ? error.message : String(error)
+    createLogger().error(error, message)
   }
 }
 

@@ -14,6 +14,7 @@ If you wish to take advantage of this, please raise a request in our `#defra-for
 ## Quick start
 
 1. Clone the template:
+
    ```bash
    git clone https://github.com/DEFRA/forms-adaptor-template.git
    cd forms-adaptor-template
@@ -21,6 +22,7 @@ If you wish to take advantage of this, please raise a request in our `#defra-for
    ```
 
 2. Replace [src/service/example-logger.js](../src/service/example-logger.js) with your handler:
+
    ```javascript
    export async function handleFormSubmission(formSubmissionMessage) {
      // Your processing logic
@@ -29,9 +31,10 @@ If you wish to take advantage of this, please raise a request in our `#defra-for
    ```
 
 3. Update [src/service/index.js](../src/service/index.js):
+
    ```javascript
    import * as yourService from './your-service.js'
-   
+
    export async function handleEvent(messages) {
      return handleFormSubmissionEvents(messages, yourService)
    }
