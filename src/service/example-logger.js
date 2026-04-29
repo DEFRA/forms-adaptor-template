@@ -5,13 +5,12 @@ import { formatter } from './mappers/formatters/example/example-formatter.js'
 const logger = createLogger()
 
 /**
- *
- * @param {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} formSubmissionMessage
+ * @param {FormAdapterSubmissionMessage} formSubmissionMessage
  */
 export async function handleFormSubmission(formSubmissionMessage) {
   /**
    * We need to get the form definition from the FormsManager in order to build the Form model
-   * @type {import('@defra/forms-model').FormDefinition} FormDefinition
+   * @type {FormDefinition}
    */
   const formDefinition = await getFormDefinition(
     formSubmissionMessage.meta.formId,
@@ -22,3 +21,8 @@ export async function handleFormSubmission(formSubmissionMessage) {
 
   logger.info(output)
 }
+
+/**
+ * @import { FormAdapterSubmissionMessage } from '@defra/forms-engine-plugin/engine/types.d.ts'
+ * @import { FormDefinition } from '@defra/forms-model'
+ */
