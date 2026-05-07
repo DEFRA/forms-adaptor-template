@@ -5,8 +5,7 @@ import { formatter } from './mappers/formatters/example/example-formatter.js'
 const logger = createLogger()
 
 /**
- *
- * @param {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} formSubmissionMessage
+ * @param {FormAdapterSubmissionMessage} formSubmissionMessage
  */
 export async function handleFormSubmission(formSubmissionMessage) {
   /**
@@ -22,3 +21,8 @@ export async function handleFormSubmission(formSubmissionMessage) {
 
   logger.info(output)
 }
+
+/**
+ * @import { FormAdapterSubmissionMessage } from '@defra/forms-engine-plugin/engine/types.d.ts'
+ * @import { FormDefinition } from '@defra/forms-model'
+ */
