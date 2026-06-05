@@ -28,6 +28,7 @@ RUN apk add --no-cache curl
 USER node
 
 COPY --from=development /home/node/package*.json ./
+COPY --from=development /home/node/.npmrc ./
 COPY --from=development /home/node/src ./src/
 
 RUN npm ci --omit=dev
