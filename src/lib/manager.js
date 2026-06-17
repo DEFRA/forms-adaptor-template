@@ -9,7 +9,7 @@ const managerUrl = config.get('managerUrl')
  * Gets the form version definition from the Forms Manager API
  * @param {string} formId
  * @param {FormStatus} formStatus
- * @param {number} versionNumber
+ * @param {number | undefined} versionNumber
  * @returns {Promise<import('@defra/forms-model').FormDefinition>}
  */
 export async function getFormDefinition(formId, formStatus, versionNumber) {
