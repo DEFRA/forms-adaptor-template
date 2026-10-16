@@ -13,6 +13,7 @@ import { FormComponent } from '@defra/forms-engine-plugin/engine/components/Form
  * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
  * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormPayload} FormPayload
  * @typedef {import('@defra/forms-engine-plugin/engine/types.js').FormValue} FormValue
+ * @typedef {import('@defra/forms-engine-plugin/engine/i18n/types.js').Translator} Translator
  * @typedef {import('@defra/forms-model').ComponentDef} ComponentDef
  * @typedef {import('@defra/forms-model').FormDefinition} FormDefinition
  * @typedef {import('@defra/forms-model').PageRepeat} PageRepeat
@@ -28,10 +29,16 @@ import { FormComponent } from '@defra/forms-engine-plugin/engine/components/Form
 /**
  * This is a higher order function that creates a mapper from the FormModel, FormAdapterSubmissionMessage and repeaterName
  * @param {FormModel} model
+ * @param {Translator} translator
  * @param {FormAdapterSubmissionMessage} formSubmissionMessage
  * @param {PageRepeat} [page]
  */
-function handleComponent(model, formSubmissionMessage, page = undefined) {
+function handleComponent(
+  model,
+  translator,
+  formSubmissionMessage,
+  page = undefined
+) {
   /**
    * @param {ComponentDef} component
    * @returns {FormattedEntry}
@@ -73,14 +80,16 @@ function handleComponent(model, formSubmissionMessage, page = undefined) {
       data = repeaters.map((repeaterField) => repeaterField[fieldName])
       text = repeaters.map((repeaterField) =>
         field.getDisplayStringFromFormValue(
-          /** @type {FormValue | FormPayload} */ (repeaterField[fieldName])
+          /** @type {FormValue | FormPayload} */ (repeaterField[fieldName]),
+          translator
         )
       )
       type = ControllerType.Repeat
     } else {
       const formValue = formSubmissionMessage.data.main[fieldName]
       text = field.getDisplayStringFromFormValue(
-        /** @type {FormValue | FormPayload} */ (formValue)
+        /** @type {FormValue | FormPayload} */ (formValue),
+        translator
       )
       data = formValue
     }
@@ -111,6 +120,11 @@ export function formatter(formSubmissionMessage, formDefinition) {
   const model = new FormModel(formDefinition, { basePath: '' })
 
   /**
+   * The translator is required by `getDisplayStringFromFormValue` to format values such as dates
+   */
+  const translator = model.createTranslator()
+
+  /**
    * We're going to iterate over the pages in the definition, and then the components to return the
    * data in order
    */
@@ -122,7 +136,7 @@ export function formatter(formSubmissionMessage, formDefinition) {
       const { title } = page.repeat.options
 
       const data = page.components.map(
-        handleComponent(model, formSubmissionMessage, page)
+        handleComponent(model, translator, formSubmissionMessage, page)
       )
 
       return {
@@ -138,7 +152,9 @@ export function formatter(formSubmissionMessage, formDefinition) {
       return []
     }
 
-    return page.components.map(handleComponent(model, formSubmissionMessage))
+    return page.components.map(
+      handleComponent(model, translator, formSubmissionMessage)
+    )
   })
 
   return JSON.stringify(output)
