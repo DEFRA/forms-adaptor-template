@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "type": "module",
   "engines": {
-    "node": ">=22.16.0"
+    "node": "^24.19.0",
+    "npm": "^11.17.0 || >=12.0.2"
   },
   "scripts": {
     "dev": "NODE_ENV=development npm run server:watch",
@@ -49,7 +50,7 @@
     "undici": "8.3.0"
   },
   "devDependencies": {
-    "@types/node": "22.20.5",
+    "@types/node": "^25.9.1",
     "@vitest/coverage-v8": "4.1.8",
     "aws-sdk-client-mock": "4.1.0",
     "aws-sdk-client-mock-vitest": "7.1.0",
@@ -60,5 +61,12 @@
     "prettier": "3.8.3",
     "vitest": "4.1.8",
     "vitest-fetch-mock": "0.4.5"
+  },
+  "allowScripts": {
+    "@defra/forms-engine-plugin": true,
+    "@defra/hapi-tracing": true,
+    "@defra/hapi-secure-context": true,
+    "fsevents": true,
+    "unrs-resolver": true
   }
 }
