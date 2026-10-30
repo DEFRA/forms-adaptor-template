@@ -28,7 +28,8 @@ const visibilityTimeout = config.get('visibilityTimeout')
 const input = {
   QueueUrl: queueUrl,
   MaxNumberOfMessages: maxNumberOfMessages,
-  VisibilityTimeout: visibilityTimeout
+  VisibilityTimeout: visibilityTimeout,
+  MessageAttributeNames: ['All']
 }
 
 /**
