@@ -32,6 +32,9 @@ describe('event', () => {
       }
       snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
       await expect(receiveEventMessages()).resolves.toEqual(receivedMessage)
+      expect(snsMock).toHaveReceivedCommandWith(ReceiveMessageCommand, {
+        MessageAttributeNames: ['All']
+      })
     })
   })
 
