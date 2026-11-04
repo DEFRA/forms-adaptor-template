@@ -1,3 +1,8 @@
+import {
+  getCorrelationId,
+  getReferenceNumber,
+  getSessionId
+} from '@defra/forms-common'
 import { FormAdapterSubmissionSchemaVersion } from '@defra/forms-engine-plugin/engine/types/enums.js'
 
 import { deleteEventMessage } from '../messaging/event.js'
@@ -221,6 +226,39 @@ describe('events', () => {
         saved: expectedResults,
         failed: []
       })
+    })
+
+    it('should handle each message in the log context of the message', async () => {
+      /** @type {Record<string, string | undefined>[]} */
+      const contexts = []
+
+      handleFormSubmissionMock.mockImplementation(() => {
+        contexts.push({
+          correlationId: getCorrelationId(),
+          sessionId: getSessionId(),
+          referenceNumber: getReferenceNumber()
+        })
+        return Promise.resolve()
+      })
+
+      const message = buildMessageStub(payload2, {
+        MessageId: messageId2,
+        MessageAttributes: {
+          correlationId: { DataType: 'String', StringValue: 'correlation-id' },
+          sessionId: { DataType: 'String', StringValue: 'session-id' },
+          referenceNumber: { DataType: 'String', StringValue: 'ABC-123-DEF' }
+        }
+      })
+
+      await handleFormSubmissionEvents([message], formSubmissionService)
+
+      expect(contexts).toEqual([
+        {
+          correlationId: 'correlation-id',
+          sessionId: 'session-id',
+          referenceNumber: 'ABC-123-DEF'
+        }
+      ])
     })
 
     it('should handle errors softly', async () => {

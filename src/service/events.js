@@ -1,4 +1,5 @@
 import { formAdapterSubmissionMessagePayloadSchema } from '@defra/forms-engine-plugin/engine/types/schema.js'
+import { runWithMessageLogContext } from '@defra/forms-common'
 import Joi from 'joi'
 
 import { getErrorMessage } from '../common/helpers/error-message.js'
@@ -49,7 +50,8 @@ export function mapFormAdapterSubmissionEvent(message) {
 }
 
 /**
- * Handle the form submission event and delete it once it's successfully handled
+ * Handle the form submission event and delete it once it's successfully handled.
+ * Each message is handled in the log context carried by its message attributes.
  * @template T
  * @param {Message[]} messages
  * @param {T & FormAdapterSubmissionService} formSubmissionService
@@ -87,7 +89,11 @@ export async function handleFormSubmissionEvents(
   }
 
   const results = await Promise.allSettled(
-    messages.map(handleSingleSubmissionEvent)
+    messages.map((message) =>
+      runWithMessageLogContext(message, () =>
+        handleSingleSubmissionEvent(message)
+      )
+    )
   )
 
   const saved = results

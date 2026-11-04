@@ -1,3 +1,9 @@
+import {
+  REFERENCE_NUMBER_HEADER,
+  SESSION_ID_HEADER,
+  createLogContext,
+  runWithLogContext
+} from '@defra/forms-common'
 import Boom from '@hapi/boom'
 import Wreck from '@hapi/wreck'
 
@@ -30,6 +36,50 @@ describe('fetch utilities', () => {
       )
       expect(vi.mocked(Wreck.read)).toHaveBeenCalledWith(mockResponse, {})
     })
+
+    it.each([
+      {
+        url: 'http://manager/forms',
+        expectedHeaders: {
+          accept: 'application/json',
+          'x-cdp-request-id': 'correlation-id',
+          [SESSION_ID_HEADER]: 'session-id',
+          [REFERENCE_NUMBER_HEADER]: 'ABC-123-DEF'
+        }
+      },
+      {
+        url: 'http://example.com/api',
+        expectedHeaders: {
+          accept: 'application/json',
+          'x-cdp-request-id': 'correlation-id'
+        }
+      }
+    ])(
+      'should add the log context headers for $url',
+      async ({ url, expectedHeaders }) => {
+        /** @type {any} */
+        const mockResponse = { statusCode: 200, headers: {} }
+
+        vi.mocked(Wreck.request).mockResolvedValue(mockResponse)
+        vi.mocked(Wreck.read).mockResolvedValue({})
+
+        const context = createLogContext({
+          correlationId: 'correlation-id',
+          sessionId: 'session-id',
+          referenceNumber: 'ABC-123-DEF'
+        })
+
+        await runWithLogContext(context, () =>
+          request('get', new URL(url), {
+            headers: { accept: 'application/json' }
+          })
+        )
+
+        expect(vi.mocked(Wreck.request)).toHaveBeenCalledWith('get', url, {
+          headers: expectedHeaders
+        })
+      }
+    )
 
     it('should throw Boom error for non-200 status with message in body', async () => {
       /** @type {any} */
