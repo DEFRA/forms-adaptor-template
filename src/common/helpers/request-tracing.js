@@ -19,6 +19,18 @@ export function applyTraceHeaders(headers) {
   return applyTraceHeader(headers, tracingHeader)
 }
 
+const managerUrl = config.get('managerUrl')
+
+/**
+ * The origin of Forms Manager. The session ID and form reference number are
+ * only sent to this service.
+ * @type {string | undefined}
+ */
+const managerOrigin =
+  managerUrl && URL.canParse(managerUrl)
+    ? new URL(managerUrl).origin
+    : undefined
+
 /**
  * Adds the session ID and the form reference number of the current log
  * context to the headers of an outbound HTTP request, but only when the
@@ -29,9 +41,7 @@ export function applyTraceHeaders(headers) {
  * @returns {Headers | undefined}
  */
 export function applyLogContextHeaders(url, headers) {
-  const managerUrl = config.get('managerUrl')
-
-  if (!managerUrl || url.origin !== new URL(managerUrl).origin) {
+  if (url.origin !== managerOrigin) {
     return headers
   }
 
